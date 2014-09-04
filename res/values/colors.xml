@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black_54">#8a000000</color>
+    <color name="black_87">#de000000</color>
+    <color name="white">#fefefe</color>
+    <color name="indigo">#3f51b5</color>
+    <color name="background">@color/white</color>
+    <color name="text_dark">@color/black_87</color>
+    <color name="text_light">@color/black_54</color>
+    <color name="text_header">@color/text_dark</color>
+    <color name="text_body">@color/text_dark</color>
+</resources>

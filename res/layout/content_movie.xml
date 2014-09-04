@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/vertical_margin"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/vertical_margin" >
+
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/poster"
+            android:layout_width="110dp"
+            android:layout_height="164dp"
+            android:layout_marginRight="@dimen/horizontal_margin"
+            android:contentDescription="@string/poster"
+            android:scaleType="fitCenter" />
+
+        <com.kopra.movieapp.widget.RobotoTextView
+            android:id="@+id/title"
+            style="@style/Text.Header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/poster"
+            app:typeface="roboto_medium" />
+
+        <com.kopra.movieapp.widget.RobotoTextView
+            android:id="@+id/runtime"
+            style="@style/Text.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_toRightOf="@+id/poster" />
+
+        <com.kopra.movieapp.widget.RobotoTextView
+            android:id="@+id/summary"
+            style="@style/Text.Body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/runtime"
+            android:layout_toRightOf="@+id/poster"
+            android:paddingTop="@dimen/vertical_margin" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ratingBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/vertical_margin"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/vertical_margin" >
+
+        <com.kopra.movieapp.widget.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingRight="@dimen/horizontal_margin"
+            android:text="@string/ratings" />
+
+        <RatingBar
+            android:id="@+id/rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:isIndicator="true"
+            android:numStars="10"
+            android:stepSize="0.1" />
+
+        <com.kopra.movieapp.widget.RobotoTextView
+            android:id="@+id/ratingText"
+            style="@style/Text.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/horizontal_margin"
+            app:typeface="roboto_medium" />
+    </LinearLayout>
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        style="@style/Text.Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/vertical_margin"
+        android:text="@string/genre"
+        app:typeface="roboto_medium" />
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        android:id="@+id/genre"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/vertical_margin"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin" />
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        style="@style/Text.Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/vertical_margin"
+        android:text="@string/language"
+        app:typeface="roboto_medium" />
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        android:id="@+id/language"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/vertical_margin"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin" />
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        style="@style/Text.Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/vertical_margin"
+        android:text="@string/release_date"
+        app:typeface="roboto_medium" />
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        android:id="@+id/releaseDate"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/vertical_margin"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin" />
+
+</LinearLayout>
