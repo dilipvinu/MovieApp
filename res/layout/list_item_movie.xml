@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/vertical_margin"
+    android:paddingBottom="@dimen/vertical_margin"
+    android:paddingLeft="@dimen/horizontal_margin"
+    android:paddingRight="@dimen/horizontal_margin"
+    android:minHeight="@dimen/list_item_min_height" >
+    
+    <com.android.volley.toolbox.NetworkImageView
+        android:id="@+id/poster"
+        android:layout_width="@dimen/thumb_width"
+        android:layout_height="@dimen/thumb_height"
+        android:scaleType="fitCenter" />
+    
+    <com.kopra.movieapp.widget.RobotoTextView 
+        android:id="@+id/title"
+        style="@style/Text.Subhead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/poster"
+        android:layout_marginLeft="@dimen/horizontal_margin" />
+    
+    <com.kopra.movieapp.widget.RobotoTextView 
+        android:id="@+id/cast"
+        style="@style/Text.Body.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/poster"
+        android:layout_below="@+id/title"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+</RelativeLayout>

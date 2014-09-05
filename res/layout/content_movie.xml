@@ -15,15 +15,15 @@
 
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/poster"
-            android:layout_width="110dp"
-            android:layout_height="164dp"
+            android:layout_width="@dimen/poster_width"
+            android:layout_height="@dimen/poster_height"
             android:layout_marginRight="@dimen/horizontal_margin"
             android:contentDescription="@string/poster"
             android:scaleType="fitCenter" />
 
         <com.kopra.movieapp.widget.RobotoTextView
             android:id="@+id/title"
-            style="@style/Text.Header"
+            style="@style/Text.Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/poster"
@@ -31,7 +31,7 @@
 
         <com.kopra.movieapp.widget.RobotoTextView
             android:id="@+id/runtime"
-            style="@style/Text.Subheader"
+            style="@style/Text.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/horizontal_margin"
+            android:paddingRight="@dimen/drawable_padding"
             android:text="@string/ratings" />
 
         <RatingBar
@@ -76,11 +76,11 @@
 
         <com.kopra.movieapp.widget.RobotoTextView
             android:id="@+id/ratingText"
-            style="@style/Text.Subheader"
+            style="@style/Text.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/horizontal_margin"
+            android:paddingLeft="@dimen/drawable_padding"
             app:typeface="roboto_medium" />
     </LinearLayout>
 
@@ -91,8 +91,7 @@
         android:paddingLeft="@dimen/horizontal_margin"
         android:paddingRight="@dimen/horizontal_margin"
         android:paddingTop="@dimen/vertical_margin"
-        android:text="@string/genre"
-        app:typeface="roboto_medium" />
+        android:text="@string/genre" />
 
     <com.kopra.movieapp.widget.RobotoTextView
         android:id="@+id/genre"
@@ -110,8 +109,7 @@
         android:paddingLeft="@dimen/horizontal_margin"
         android:paddingRight="@dimen/horizontal_margin"
         android:paddingTop="@dimen/vertical_margin"
-        android:text="@string/language"
-        app:typeface="roboto_medium" />
+        android:text="@string/language" />
 
     <com.kopra.movieapp.widget.RobotoTextView
         android:id="@+id/language"
@@ -129,8 +127,7 @@
         android:paddingLeft="@dimen/horizontal_margin"
         android:paddingRight="@dimen/horizontal_margin"
         android:paddingTop="@dimen/vertical_margin"
-        android:text="@string/release_date"
-        app:typeface="roboto_medium" />
+        android:text="@string/release_date" />
 
     <com.kopra.movieapp.widget.RobotoTextView
         android:id="@+id/releaseDate"

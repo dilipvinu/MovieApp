@@ -1,30 +1,52 @@
 package com.kopra.movieapp.util;
 
-public enum Rated {
+import com.kopra.movieapp.R;
 
-	G("G"),
-	PG("PG"),
-	PG13("PG-13"),
-	R("R"),
-	NC17("NC-17"),
-	X("X"),
-	UR("UR"),
-	TVY("TV-Y"),
-	TVY7("TV-Y7"),
-	TVG("TV-G"),
-	TVPG("PG"),
-	TV14("TV-14"),
-	TVMA("TV-MA"),
-	NR("NR");
-	
-	private final String text;
-	
-	private Rated(final String text) {
-		this.text = text;
-	}
+public class Rated {
 
-	@Override
-	public String toString() {
-		return text;
+	public static int getDrawable(String rated) {
+		if ("G".equals(rated)) {
+			return R.drawable.cert_us_g;
+		}
+		if ("PG".equals(rated)) {
+			return R.drawable.cert_us_pg;
+		}
+		if ("PG-13".equals(rated)) {
+			return R.drawable.cert_us_pg13;
+		}
+		if ("R".equals(rated)) {
+			return R.drawable.cert_us_r;
+		}
+		if ("NC-17".equals(rated)) {
+			return R.drawable.cert_us_nc17;
+		}
+		if ("X".equals(rated)) {
+			return R.drawable.cert_us_x;
+		}
+		if ("UNRATED".equals(rated)) {
+			return R.drawable.cert_us_unrated;
+		}
+		if ("NOT RATED".equals(rated)) {
+			return 0;
+		}
+		if ("TV-Y".equals(rated)) {
+			return R.drawable.cert_us_tvy;
+		}
+		if ("TV-Y7".equals(rated)) {
+			return R.drawable.cert_us_tvy7;
+		}
+		if ("TV-G".equals(rated)) {
+			return R.drawable.cert_us_tvg;
+		}
+		if ("TV-PG".equals(rated)) {
+			return R.drawable.cert_us_tvpg;
+		}
+		if ("TV-14".equals(rated)) {
+			return R.drawable.cert_us_tv14;
+		}
+		if ("TV-MA".equals(rated)) {
+			return R.drawable.cert_us_tvma;
+		}
+		return 0;
 	}
 }

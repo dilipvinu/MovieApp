@@ -13,5 +13,8 @@
     <string name="release_date">Release Date</string>
     <string name="search">Search</string>
     <string name="search_hint">Search movies</string>
+    <string name="box_office">Box Office</string>
+    <string name="in_theaters">In Theaters</string>
+    <string name="no_imdb_entry">No IMDb entry exists for this movie</string>
 
 </resources>

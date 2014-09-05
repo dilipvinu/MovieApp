@@ -22,28 +22,37 @@
         <item name="android:drawablePadding">@dimen/drawable_padding</item>
     </style>
     
-    <style name="Text.Header">
-        <item name="android:textColor">@color/text_header</item>
-        <item name="android:textSize">@dimen/text_header</item>
+    <style name="Text.Title">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_title</item>
         <item name="android:gravity">center_vertical</item>
     </style>
     
-    <style name="Text.Subheader">
-        <item name="android:textColor">@color/text_header</item>
-        <item name="android:textSize">@dimen/text_subheader</item>
+    <style name="Text.Subhead">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_subhead</item>
         <item name="android:gravity">center_vertical</item>
     </style>
     
     <style name="Text.Section">
-        <item name="android:textColor">@color/text_header</item>
+        <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">@dimen/text_body</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textAllCaps">true</item>
+        <item name="typeface">roboto_medium</item>
     </style>
     
     <style name="Text.Body">
-        <item name="android:textColor">@color/text_body</item>
+        <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">@dimen/text_body</item>
+    </style>
+    
+    <style name="Text.Body.Secondary">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+    
+    <style name="Text.Caption">
+        
     </style>
 
 </resources>
