@@ -21,6 +21,7 @@ import android.text.TextUtils;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.kopra.movieapp.net.UrlBuilder;
 import com.kopra.movieapp.net.VolleyManager;
 import com.kopra.movieapp.util.Consts;
 import com.kopra.movieapp.util.Utils;
@@ -70,7 +71,11 @@ public class SearchSuggestionsProvider extends ContentProvider {
 
 	private Cursor getSuggestions(String query) {
 		VolleyManager.getInstance(getContext()).getRequestQueue().cancelAll("SearchSuggestions");
-		String url = String.format(Utils.getUrlWithKey(getContext(), Consts.Api.SUGGESTIONS), Utils.encode(query));
+		String url = new UrlBuilder(getContext())
+				.setBase(Consts.Api.BASE)
+				.setMethod(String.format(Consts.Api.SEARCH, Utils.encode(query)))
+				.setLimit(Consts.Config.LIMIT_SUGGESTION)
+				.build();
 		RequestFuture<JSONObject> future = RequestFuture.newFuture();
 		JsonObjectRequest request = new JsonObjectRequest(url, null, future, future);
 		request.setTag("SearchSuggestions");

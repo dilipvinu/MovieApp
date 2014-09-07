@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/progressContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/listContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ScrollView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <com.kopra.movieapp.widget.RobotoTextView
+                        style="@style/Text.Title.Section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:text="@string/box_office" />
+
+                    <LinearLayout
+                        android:id="@+id/boxOffice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/layout_horizontal_divider"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:paddingLeft="@dimen/horizontal_margin_small"
+                        android:paddingRight="@dimen/horizontal_margin_small"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:showDividers="middle" />
+
+                    <com.kopra.movieapp.widget.RobotoTextView
+                        style="@style/Text.Title.Section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:text="@string/in_theaters" />
+
+                    <LinearLayout
+                        android:id="@+id/inTheaters"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/layout_horizontal_divider"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:paddingLeft="@dimen/horizontal_margin_small"
+                        android:paddingRight="@dimen/horizontal_margin_small"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:showDividers="middle" />
+
+                    <com.kopra.movieapp.widget.RobotoTextView
+                        style="@style/Text.Title.Section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:text="@string/opening" />
+
+                    <LinearLayout
+                        android:id="@+id/opening"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/layout_horizontal_divider"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:paddingLeft="@dimen/horizontal_margin_small"
+                        android:paddingRight="@dimen/horizontal_margin_small"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:showDividers="middle" />
+
+                    <com.kopra.movieapp.widget.RobotoTextView
+                        style="@style/Text.Title.Section"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:text="@string/upcoming" />
+
+                    <LinearLayout
+                        android:id="@+id/upcoming"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="@drawable/layout_horizontal_divider"
+                        android:orientation="horizontal"
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:paddingLeft="@dimen/horizontal_margin_small"
+                        android:paddingRight="@dimen/horizontal_margin_small"
+                        android:paddingTop="@dimen/vertical_margin"
+                        android:showDividers="middle" />
+                </LinearLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+        
+        <LinearLayout
+            android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/emptyMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/vertical_margin"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/error_unknown" />
+            
+            <Button
+                android:id="@+id/emptyAction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/retry" />
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

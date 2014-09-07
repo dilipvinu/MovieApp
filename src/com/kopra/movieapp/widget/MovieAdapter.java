@@ -45,6 +45,8 @@ public class MovieAdapter extends ArrayAdapter<JSONObject> {
 			view = mInflater.inflate(R.layout.list_item_movie, parent, false);
 			holder = new ViewHolder();
 			holder.poster = (NetworkImageView) view.findViewById(R.id.poster);
+			holder.poster.setDefaultImageResId(R.drawable.film_primary);
+			holder.poster.setErrorImageResId(R.drawable.film_primary);
 			holder.title = (TextView) view.findViewById(R.id.title);
 			holder.cast = (TextView) view.findViewById(R.id.cast);
 			view.setTag(holder);

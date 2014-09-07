@@ -103,7 +103,7 @@
         android:paddingTop="@dimen/vertical_margin" >
 
         <com.kopra.movieapp.widget.RobotoTextView
-            style="@style/Text.Section"
+            style="@style/Text.Body.Section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vertical_margin"
@@ -117,7 +117,7 @@
             android:paddingBottom="@dimen/vertical_margin" />
 
         <com.kopra.movieapp.widget.RobotoTextView
-            style="@style/Text.Section"
+            style="@style/Text.Body.Section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vertical_margin"
@@ -131,7 +131,7 @@
             android:paddingBottom="@dimen/vertical_margin" />
 
         <com.kopra.movieapp.widget.RobotoTextView
-            style="@style/Text.Section"
+            style="@style/Text.Body.Section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/vertical_margin"

@@ -85,7 +85,7 @@
     </LinearLayout>
 
     <com.kopra.movieapp.widget.RobotoTextView
-        style="@style/Text.Section"
+        style="@style/Text.Body.Section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/horizontal_margin"
@@ -103,7 +103,7 @@
         android:paddingRight="@dimen/horizontal_margin" />
 
     <com.kopra.movieapp.widget.RobotoTextView
-        style="@style/Text.Section"
+        style="@style/Text.Body.Section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/horizontal_margin"
@@ -121,7 +121,7 @@
         android:paddingRight="@dimen/horizontal_margin" />
 
     <com.kopra.movieapp.widget.RobotoTextView
-        style="@style/Text.Section"
+        style="@style/Text.Body.Section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/horizontal_margin"

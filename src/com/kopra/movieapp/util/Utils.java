@@ -51,4 +51,21 @@ public class Utils {
 			return null;
 		}
 	}
+	
+	public static String getApiMethod(int type) {
+		switch (type) {
+		case Consts.List.SEARCH:
+			return Consts.Api.SEARCH;
+		case Consts.List.BOX_OFFICE:
+			return Consts.Api.BOX_OFFICE;
+		case Consts.List.IN_THEATERS:
+			return Consts.Api.IN_THEATERS;
+		case Consts.List.OPENING:
+			return Consts.Api.OPENING;
+		case Consts.List.UPCOMING:
+			return Consts.Api.UPCOMING;
+		default:
+			return null;
+		}
+	}
 }

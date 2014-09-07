@@ -13,8 +13,16 @@
     <string name="release_date">Release Date</string>
     <string name="search">Search</string>
     <string name="search_hint">Search movies</string>
+    <string name="home">Home</string>
     <string name="box_office">Box Office</string>
     <string name="in_theaters">In Theaters</string>
+    <string name="opening">Opening Movies</string>
+    <string name="upcoming">Upcoming Movies</string>
     <string name="no_imdb_entry">No IMDb entry exists for this movie</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="error_connection">No connection</string>
+    <string name="error_unknown">Unexpected error</string>
+    <string name="retry">Retry</string>
 
 </resources>

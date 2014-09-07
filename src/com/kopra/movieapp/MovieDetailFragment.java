@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -24,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.NetworkImageView;
+import com.kopra.movieapp.net.UrlBuilder;
 import com.kopra.movieapp.net.VolleyManager;
 import com.kopra.movieapp.util.Consts;
 import com.kopra.movieapp.util.Rated;
@@ -33,9 +35,10 @@ import com.kopra.movieapp.view.MovieDetailEvent;
 
 import de.greenrobot.event.EventBus;
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
 	private ProgressBar mProgressView;
+	private SwipeRefreshLayout mSwipeContainer;
 	private ScrollView mContentView;
 	private NetworkImageView mPosterView;
 	private TextView mTitleView;
@@ -65,6 +68,13 @@ public class MovieDetailFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 		mProgressView = (ProgressBar) rootView.findViewById(R.id.progress);
+		mSwipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
+		mSwipeContainer.setOnRefreshListener(this);
+		mSwipeContainer.setColorSchemeResources(
+				android.R.color.holo_blue_bright, 
+				android.R.color.holo_green_light, 
+				android.R.color.holo_orange_light, 
+				android.R.color.holo_red_light);
 		mContentView = (ScrollView) rootView.findViewById(R.id.content);
 		mPosterView = (NetworkImageView) rootView.findViewById(R.id.poster);
 		mPosterView.setDefaultImageResId(R.drawable.film_primary);
@@ -117,9 +127,15 @@ public class MovieDetailFragment extends Fragment {
 		outState.putBoolean("progress", mProgressing);
 		super.onSaveInstanceState(outState);
 	}
+	
+	@Override
+	public void onRefresh() {
+		loadMovie();
+	}
 
 	public void onEventMainThread(MovieDetailEvent event) {
 		mProgressing = false;
+		mSwipeContainer.setRefreshing(false);
 		if (event.getStatus() == Event.SUCCESS) {
 			mMovie = event.getResponse();
 			setupView();
@@ -155,11 +171,11 @@ public class MovieDetailFragment extends Fragment {
 			return;
 		}
 		
-		String url = null;
+		String method = null;
 		try {
 			if (!movie.isNull("alternate_ids") && !movie.getJSONObject("alternate_ids").isNull("imdb")) {
 				String id = movie.getJSONObject("alternate_ids").getString("imdb");
-				url = String.format(Consts.Api.MOVIE_DETAIL_OMDB, id);
+				method = String.format(Consts.Api.MOVIE_DETAIL_OMDB, id);
 			} else {
 				Toast.makeText(getActivity(), R.string.no_imdb_entry, Toast.LENGTH_SHORT).show();
 				getActivity().finish();
@@ -167,6 +183,10 @@ public class MovieDetailFragment extends Fragment {
 			}
 		} catch (JSONException e) {}
 
+		String url = new UrlBuilder(getActivity())
+				.setBase(Consts.Api.BASE_OMDB)
+				.setMethod(method)
+				.build();
 		JsonObjectRequest request = new JsonObjectRequest(url, null, onResponse, onError);
 		
 		mRequestQueue.add(request);

@@ -4,13 +4,19 @@
     android:layout_height="match_parent"
     tools:context="com.kopra.movieapp.MainActivity$PlaceholderFragment" >
 
-    <ScrollView
-        android:id="@+id/content"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <include layout="@layout/content_movie" />
-    </ScrollView>
+        <ScrollView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include layout="@layout/content_movie" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progress"

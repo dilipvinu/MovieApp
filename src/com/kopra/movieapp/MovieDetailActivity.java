@@ -1,5 +1,7 @@
 package com.kopra.movieapp;
 
+import com.kopra.movieapp.util.Category;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -15,9 +17,16 @@ public class MovieDetailActivity extends BaseActivity {
 			String movie = getIntent().getStringExtra("movie");
 			getFragmentManager()
 				.beginTransaction()
-				.add(android.R.id.content, MovieDetailFragment.newInstance(movie), TAG)
+				.add(R.id.container, MovieDetailFragment.newInstance(movie), TAG)
 				.commit();
 		}
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		setDrawerIndicatorEnabled(false);
+		setCategory(Category.NONE);
 	}
 	
 	@Override

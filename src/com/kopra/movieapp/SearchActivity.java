@@ -1,15 +1,12 @@
 package com.kopra.movieapp;
 
-import com.kopra.movieapp.util.Consts;
-
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-public class SearchActivity extends BaseActivity {
-
-	private static final String TAG = "MovieListFragment";
+public class SearchActivity extends Activity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +36,11 @@ public class SearchActivity extends BaseActivity {
 			startActivity(detailIntent);
 			finish();
 		} else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			Intent resultIntent = new Intent(this, SearchResultActivity.class);
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			MovieListFragment fragment = (MovieListFragment) getFragmentManager().findFragmentByTag(TAG);
-			if (fragment == null) {
-				getFragmentManager().beginTransaction()
-					.add(android.R.id.content, MovieListFragment.newInstance(Consts.List.SEARCH, query), TAG).commit();
-			} else {
-				fragment.search(query);
-			}
+			resultIntent.putExtra("query", query);
+			startActivity(resultIntent);
+			finish();
 		}
 	}
 }

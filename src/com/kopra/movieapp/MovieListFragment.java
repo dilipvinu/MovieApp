@@ -10,26 +10,43 @@ import org.json.JSONObject;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.kopra.movieapp.net.UrlBuilder;
 import com.kopra.movieapp.net.VolleyManager;
 import com.kopra.movieapp.util.Consts;
+import com.kopra.movieapp.util.ErrorHandler;
 import com.kopra.movieapp.util.Utils;
 import com.kopra.movieapp.view.Event;
-import com.kopra.movieapp.view.SearchListEvent;
+import com.kopra.movieapp.view.MovieListEvent;
 import com.kopra.movieapp.widget.MovieAdapter;
 
 import de.greenrobot.event.EventBus;
 
-public class MovieListFragment extends ListFragment {
+public class MovieListFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
 	private RequestQueue mRequestQueue;
 	private JSONObject mResults;
+	
+	private View mProgressContainer;
+	private View mListContainer;
+	private SwipeRefreshLayout mSwipeContainer;
+	private TextView mEmptyMessage;
+	private Button mEmptyAction;
+	
+	private boolean mShown = true;
 	
 	public static MovieListFragment newInstance(int type, String query) {
 		MovieListFragment fragment = new MovieListFragment();
@@ -41,10 +58,41 @@ public class MovieListFragment extends ListFragment {
 	}
 	
 	public void search(String query) {
+		int type = getArguments().getInt("type");
+		search(type, query);
+	}
+	
+	public void search(int type, String query) {
+		String url = new UrlBuilder(getActivity())
+				.setBase(Consts.Api.BASE)
+				.setMethod(String.format(Utils.getApiMethod(type), Utils.encode(query)))
+				.setLimit(Consts.Config.LIMIT_SEARCH)
+				.build();
 		JsonObjectRequest request = new JsonObjectRequest(
-				String.format(Utils.getUrlWithKey(getActivity(), getApi()), Utils.encode(query)), 
-				null, onResponse, onError);
+				url, null, onResponse, onError);
 		mRequestQueue.add(request);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_list, container, false);
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		mProgressContainer = view.findViewById(R.id.progressContainer);
+		mListContainer = view.findViewById(R.id.listContainer);
+		mSwipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
+		mSwipeContainer.setOnRefreshListener(this);
+		mSwipeContainer.setColorSchemeResources(
+				android.R.color.holo_blue_bright, 
+				android.R.color.holo_green_light, 
+				android.R.color.holo_orange_light, 
+				android.R.color.holo_red_light);
+		mEmptyMessage = (TextView) view.findViewById(R.id.emptyMessage);
+		mEmptyAction = (Button) view.findViewById(R.id.emptyAction);
+		mEmptyAction.setOnClickListener(onClick);
 	}
 	
 	@Override
@@ -54,9 +102,11 @@ public class MovieListFragment extends ListFragment {
 		mRequestQueue = VolleyManager.getInstance(getActivity()).getRequestQueue();
 		
 		if (savedInstanceState != null) {
+			mShown = savedInstanceState.getBoolean("shown");
 			mResults = Utils.toJson(savedInstanceState.getString("results"));
 			processResponse(mResults);
 		} else {
+			showList(false, false);
 			search(getArguments().getString("query"));
 		}
 	}
@@ -75,6 +125,7 @@ public class MovieListFragment extends ListFragment {
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean("shown", mShown);
 		outState.putString("results", mResults != null ? mResults.toString() : null);
 		super.onSaveInstanceState(outState);
 	}
@@ -87,26 +138,77 @@ public class MovieListFragment extends ListFragment {
 		startActivity(detailIntent);
 	}
 	
-	public void onEventMainThread(SearchListEvent event) {
+	@Override
+	public void onRefresh() {
+		search(getArguments().getString("query"));
+	}
+	
+	public void onEventMainThread(MovieListEvent event) {
+		mSwipeContainer.setRefreshing(false);
+		
 		if (event.getStatus() == Event.SUCCESS) {
 			mResults = event.getResponse();
 			processResponse(mResults);
+		} else {
+			mEmptyMessage.setText(ErrorHandler.getMessage(event.getError()));
+			showList(true, false);
 		}
 	}
 	
 	private Response.Listener<JSONObject> onResponse = new Response.Listener<JSONObject>() {
 		@Override
 		public void onResponse(JSONObject response) {
-			EventBus.getDefault().post(new SearchListEvent(response, null, Event.SUCCESS));
+			EventBus.getDefault().post(new MovieListEvent(response, null, Event.SUCCESS));
 		}
 	};
 
 	private Response.ErrorListener onError = new Response.ErrorListener() {
 		@Override
 		public void onErrorResponse(VolleyError error) {
-			EventBus.getDefault().post(new SearchListEvent(null, error, Event.FAILURE));
+			EventBus.getDefault().post(new MovieListEvent(null, error, Event.FAILURE));
 		}
-	};	
+	};
+	
+	private OnClickListener onClick = new OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			showList(false, false);
+			search(getArguments().getString("query"));
+		}
+	};
+	
+	private void showList(boolean show, boolean animate) {
+		if (mShown == show) {
+			return;
+		}
+		
+		if (show) {
+			if (animate) {
+				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+	                    getActivity(), android.R.anim.fade_out));
+	            mListContainer.startAnimation(AnimationUtils.loadAnimation(
+	                    getActivity(), android.R.anim.fade_in));
+			} else {
+				mProgressContainer.clearAnimation();
+				mListContainer.clearAnimation();
+			}
+            mProgressContainer.setVisibility(View.GONE);
+            mListContainer.setVisibility(View.VISIBLE);
+		} else {
+			if (animate) {
+				mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+	                    getActivity(), android.R.anim.fade_in));
+	            mListContainer.startAnimation(AnimationUtils.loadAnimation(
+	                    getActivity(), android.R.anim.fade_out));
+			} else {
+				mProgressContainer.clearAnimation();
+				mListContainer.clearAnimation();
+			}
+            mProgressContainer.setVisibility(View.VISIBLE);
+            mListContainer.setVisibility(View.GONE);
+		}
+		mShown = show;
+	}
 	
 	private void processResponse(JSONObject response) {
 		if (response == null)
@@ -119,20 +221,10 @@ public class MovieListFragment extends ListFragment {
 				list.add(movies.getJSONObject(index));
 			}
 			setListAdapter(new MovieAdapter(getActivity(), list));
+			showList(true, true);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private String getApi() {
-		int type = getArguments().getInt("type");
-		switch (type) {
-		case Consts.List.SEARCH:
-			return Consts.Api.SEARCH;
-		case Consts.List.BOX_OFFICE:
-			return Consts.Api.BOX_OFFICE;
-		default:
-			return null;
-		}
-	}
 }

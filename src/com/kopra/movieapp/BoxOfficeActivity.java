@@ -1,12 +1,13 @@
 package com.kopra.movieapp;
 
+import com.kopra.movieapp.util.Category;
 import com.kopra.movieapp.util.Consts;
 
 import android.os.Bundle;
 
 public class BoxOfficeActivity extends BaseActivity {
 
-private static final String TAG = "BoxOfficeFragment";
+	private static final String TAG = "ListFragment";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -14,9 +15,15 @@ private static final String TAG = "BoxOfficeFragment";
 		if (savedInstanceState == null) {
 			getFragmentManager()
 				.beginTransaction()
-				.add(android.R.id.content, MovieListFragment.newInstance(Consts.List.BOX_OFFICE, null), TAG)
+				.add(R.id.container, MovieListFragment.newInstance(Consts.List.BOX_OFFICE, null), TAG)
 				.commit();
 		}
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		setCategory(Category.BOX_OFFICE);
 	}
 	
 }
