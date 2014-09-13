@@ -26,6 +26,7 @@
         <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
         <item name="android:ratingBarStyleSmall">@style/RatingBarSmallAppTheme</item>
         <item name="android:listChoiceBackgroundIndicator">@drawable/apptheme_list_selector_holo_light</item>
+        <item name="android:selectableItemBackground">@drawable/apptheme_item_background_holo_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/apptheme_activated_background_holo_light</item>
     </style>
 
@@ -64,7 +65,17 @@
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="Text.Caption"></style>
+    <style name="Text.Caption">
+        <item name="android:textSize">@dimen/text_caption</item>
+    </style>
+    
+    <style name="Text.Button">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_caption</item>
+        <item name="android:textColor">@color/text_inverse_primary</item>
+        <item name="android:background">@drawable/rounded_rect</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 
     <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
         <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>

@@ -32,7 +32,7 @@ import com.kopra.movieapp.util.Consts;
 import com.kopra.movieapp.util.ErrorHandler;
 import com.kopra.movieapp.util.Utils;
 import com.kopra.movieapp.view.Event;
-import com.kopra.movieapp.view.MovieListEvent;
+import com.kopra.movieapp.view.MovieCollectionEvent;
 
 import de.greenrobot.event.EventBus;
 
@@ -51,9 +51,13 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 	private TextView mEmptyMessage;
 	private Button mEmptyAction;
 	
+	private View mBoxOfficeTitle;
 	private LinearLayout mBoxOfficeContainer;
+	private View mInTheatersTitle;
 	private LinearLayout mInTheatersContainer;
+	private View mOpeningTitle;
 	private LinearLayout mOpeningContainer;
+	private View mUpcomingTitle;
 	private LinearLayout mUpcomingContainer;
 	
 	private JSONObject mBoxOfficeCollection;
@@ -61,6 +65,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 	private JSONObject mOpeningCollection;
 	private JSONObject mUpcomingCollection;
 	
+	private boolean mRefreshing;
 	private boolean mShown = true;
 	private int mCount = 4;
 	
@@ -81,9 +86,17 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 				android.R.color.holo_green_light, 
 				android.R.color.holo_orange_light, 
 				android.R.color.holo_red_light);
+		mBoxOfficeTitle = view.findViewById(R.id.boxOfficeTitle);
+		mBoxOfficeTitle.setOnClickListener(onTitleClick);
 		mBoxOfficeContainer = (LinearLayout) view.findViewById(R.id.boxOffice);
+		mInTheatersTitle = view.findViewById(R.id.inTheatersTitle);
+		mInTheatersTitle.setOnClickListener(onTitleClick);
 		mInTheatersContainer = (LinearLayout) view.findViewById(R.id.inTheaters);
+		mOpeningTitle = view.findViewById(R.id.openingTitle);
+		mOpeningTitle.setOnClickListener(onTitleClick);
 		mOpeningContainer = (LinearLayout) view.findViewById(R.id.opening);
+		mUpcomingTitle = view.findViewById(R.id.upcomingTitle);
+		mUpcomingTitle.setOnClickListener(onTitleClick);
 		mUpcomingContainer = (LinearLayout) view.findViewById(R.id.upcoming);
 		mList = view.findViewById(android.R.id.list);
 		mEmpty = view.findViewById(android.R.id.empty);
@@ -100,6 +113,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 		mImageLoader = VolleyManager.getInstance(getActivity()).getImageLoader();
 		
 		if (savedInstanceState != null) {
+			mRefreshing = savedInstanceState.getBoolean("refreshing");
 			mShown = savedInstanceState.getBoolean("shown");
 			mBoxOfficeCollection = Utils.toJson(savedInstanceState.getString("box_office"));
 			mInTheatersCollection = Utils.toJson(savedInstanceState.getString("in_theaters"));
@@ -126,12 +140,12 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 				new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-						EventBus.getDefault().post(new MovieListEvent(response, null, Event.SUCCESS, String.valueOf(type)));
+						EventBus.getDefault().post(new MovieCollectionEvent(response, null, Event.SUCCESS, String.valueOf(type)));
 					}
 				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-						EventBus.getDefault().post(new MovieListEvent(null, error, Event.FAILURE, String.valueOf(type)));
+						EventBus.getDefault().post(new MovieCollectionEvent(null, error, Event.FAILURE, String.valueOf(type)));
 					}
 				});
 		request.setTag(TAG);
@@ -152,6 +166,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean("refreshing", mRefreshing);
 		outState.putBoolean("shown", mShown);
 		outState.putString("box_office", mBoxOfficeCollection != null ? mBoxOfficeCollection.toString() : null);
 		outState.putString("in_theaters", mInTheatersCollection != null ? mInTheatersCollection.toString() : null);
@@ -165,7 +180,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 		loadAllCollections();
 	}
 	
-	public void onEventMainThread(MovieListEvent event) {
+	public void onEventMainThread(MovieCollectionEvent event) {
 		if (event.getStatus() == Event.SUCCESS) {
 			if (event.getTag().equals(String.valueOf(Consts.List.BOX_OFFICE))) {
 				mBoxOfficeCollection = event.getResponse();
@@ -189,10 +204,13 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 			
 			mCount--;
 			if (mCount == 0) {
+				mRefreshing = false;
 				mSwipeContainer.setRefreshing(false);
 				showList(true, true);
 			}
 		} else {
+			mRefreshing = false;
+			mSwipeContainer.setRefreshing(false);
 			VolleyManager.getInstance(getActivity()).getRequestQueue().cancelAll(TAG);
 			mList.setVisibility(View.GONE);
 			mEmpty.setVisibility(View.VISIBLE);
@@ -203,6 +221,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 	
 	private void loadAllCollections() {
 		VolleyManager.getInstance(getActivity()).getRequestQueue().cancelAll(TAG);
+		mRefreshing = true;
 		mCount = 4;
 		loadCollection(Consts.List.BOX_OFFICE);
 		loadCollection(Consts.List.IN_THEATERS);
@@ -301,6 +320,31 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 			return null;
 		}
 	}
+	
+	private OnClickListener onTitleClick = new OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			Class<?> cls = null;
+			switch (view.getId()) {
+			case R.id.boxOfficeTitle:
+				cls = BoxOfficeActivity.class;
+				break;
+			case R.id.inTheatersTitle:
+				cls = InTheatersActivity.class;
+				break;
+			case R.id.openingTitle:
+				cls = OpeningMoviesActivity.class;
+				break;
+			case R.id.upcomingTitle:
+				cls = UpcomingMoviesActivity.class;
+				break;
+			default:
+				return;
+			}
+			Intent intent = new Intent(getActivity(), cls);
+			startActivity(intent);
+		}
+	};
 	
 	private OnClickListener onTileClick = new OnClickListener() {
 		@Override

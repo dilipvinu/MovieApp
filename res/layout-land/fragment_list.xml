@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
@@ -25,13 +26,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
-            <ScrollView
-                android:id="@+id/content"
+            <GridView
+                android:id="@android:id/list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <include layout="@layout/content_movie" />
-            </ScrollView>
+                android:layout_height="match_parent"
+                android:drawSelectorOnTop="false"
+                android:numColumns="2"
+                android:stretchMode="columnWidth" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <LinearLayout
@@ -39,23 +40,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="gone" >
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/emptyMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
-                android:text="@string/error_unknown"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/error_unknown" />
+            
             <Button
                 android:id="@+id/emptyAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/retry"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/retry" />
         </LinearLayout>
     </FrameLayout>
 

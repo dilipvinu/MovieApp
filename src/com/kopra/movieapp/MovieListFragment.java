@@ -7,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,8 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
@@ -35,7 +34,7 @@ import com.kopra.movieapp.widget.MovieAdapter;
 
 import de.greenrobot.event.EventBus;
 
-public class MovieListFragment extends ListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MovieListFragment extends BaseListFragment implements SwipeRefreshLayout.OnRefreshListener {
 
 	private RequestQueue mRequestQueue;
 	private JSONObject mResults;
@@ -46,6 +45,7 @@ public class MovieListFragment extends ListFragment implements SwipeRefreshLayou
 	private TextView mEmptyMessage;
 	private Button mEmptyAction;
 	
+	private boolean mRefreshing;
 	private boolean mShown = true;
 	
 	public static MovieListFragment newInstance(int type, String query) {
@@ -71,6 +71,7 @@ public class MovieListFragment extends ListFragment implements SwipeRefreshLayou
 		JsonObjectRequest request = new JsonObjectRequest(
 				url, null, onResponse, onError);
 		mRequestQueue.add(request);
+		mRefreshing = true;
 	}
 	
 	@Override
@@ -102,6 +103,7 @@ public class MovieListFragment extends ListFragment implements SwipeRefreshLayou
 		mRequestQueue = VolleyManager.getInstance(getActivity()).getRequestQueue();
 		
 		if (savedInstanceState != null) {
+			mRefreshing = savedInstanceState.getBoolean("refreshing");
 			mShown = savedInstanceState.getBoolean("shown");
 			mResults = Utils.toJson(savedInstanceState.getString("results"));
 			processResponse(mResults);
@@ -125,13 +127,14 @@ public class MovieListFragment extends ListFragment implements SwipeRefreshLayou
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
+		outState.putBoolean("refreshing", mRefreshing);
 		outState.putBoolean("shown", mShown);
 		outState.putString("results", mResults != null ? mResults.toString() : null);
 		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
-	public void onListItemClick(ListView parent, View view, int position, long id) {
+	public void onListItemClick(AbsListView parent, View view, int position, long id) {
 		JSONObject movie = (JSONObject) parent.getItemAtPosition(position);
 		Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
 		detailIntent.putExtra("movie", movie.toString());
@@ -144,6 +147,7 @@ public class MovieListFragment extends ListFragment implements SwipeRefreshLayou
 	}
 	
 	public void onEventMainThread(MovieListEvent event) {
+		mRefreshing = false;
 		mSwipeContainer.setRefreshing(false);
 		
 		if (event.getStatus() == Event.SUCCESS) {
@@ -211,8 +215,16 @@ public class MovieListFragment extends ListFragment implements SwipeRefreshLayou
 	}
 	
 	private void processResponse(JSONObject response) {
-		if (response == null)
+		if (mRefreshing) {
+			showList(false, false);
 			return;
+		}
+		
+		if (response == null) {
+			mEmptyMessage.setText(ErrorHandler.getMessage(null));
+			showList(true, false);
+			return;
+		}
 		
 		try {
 			JSONArray movies = response.getJSONArray("movies");

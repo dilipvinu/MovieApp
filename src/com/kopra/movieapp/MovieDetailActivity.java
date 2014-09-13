@@ -13,20 +13,15 @@ public class MovieDetailActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		setDrawerIndicatorEnabled(false);
 		if (savedInstanceState == null) {
+			setCategory(Category.NONE);
 			String movie = getIntent().getStringExtra("movie");
 			getFragmentManager()
 				.beginTransaction()
 				.add(R.id.container, MovieDetailFragment.newInstance(movie), TAG)
 				.commit();
 		}
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setDrawerIndicatorEnabled(false);
-		setCategory(Category.NONE);
 	}
 	
 	@Override

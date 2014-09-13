@@ -12,16 +12,11 @@ public class HomeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
+			setCategory(Category.HOME);
 			getFragmentManager()
 				.beginTransaction()
 				.add(R.id.container, new CollectionFragment(), TAG)
 				.commit();
 		}
-	}
-	
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setCategory(Category.HOME);
 	}
 }

@@ -37,89 +37,165 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                    <com.kopra.movieapp.widget.RobotoTextView
-                        style="@style/Text.Title.Section"
+                    <LinearLayout
+                        android:id="@+id/boxOfficeTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingRight="@dimen/horizontal_margin"
                         android:paddingTop="@dimen/vertical_margin"
-                        android:text="@string/box_office" />
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:background="?android:attr/selectableItemBackground" >
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Title.Section"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/box_office" />
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/more" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/boxOffice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/vertical_margin"
                         android:divider="@drawable/layout_horizontal_divider"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/vertical_margin"
                         android:paddingLeft="@dimen/horizontal_margin_small"
                         android:paddingRight="@dimen/horizontal_margin_small"
-                        android:paddingTop="@dimen/vertical_margin"
                         android:showDividers="middle" />
 
-                    <com.kopra.movieapp.widget.RobotoTextView
-                        style="@style/Text.Title.Section"
+                    <LinearLayout
+                        android:id="@+id/inTheatersTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingRight="@dimen/horizontal_margin"
                         android:paddingTop="@dimen/vertical_margin"
-                        android:text="@string/in_theaters" />
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:background="?android:attr/selectableItemBackground" >
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Title.Section"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/in_theaters" />
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/more" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/inTheaters"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/vertical_margin"
                         android:divider="@drawable/layout_horizontal_divider"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/vertical_margin"
                         android:paddingLeft="@dimen/horizontal_margin_small"
                         android:paddingRight="@dimen/horizontal_margin_small"
-                        android:paddingTop="@dimen/vertical_margin"
                         android:showDividers="middle" />
 
-                    <com.kopra.movieapp.widget.RobotoTextView
-                        style="@style/Text.Title.Section"
+                    <LinearLayout
+                        android:id="@+id/openingTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingRight="@dimen/horizontal_margin"
                         android:paddingTop="@dimen/vertical_margin"
-                        android:text="@string/opening" />
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:background="?android:attr/selectableItemBackground" >
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Title.Section"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/opening" />
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/more" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/opening"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/vertical_margin"
                         android:divider="@drawable/layout_horizontal_divider"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/vertical_margin"
                         android:paddingLeft="@dimen/horizontal_margin_small"
                         android:paddingRight="@dimen/horizontal_margin_small"
-                        android:paddingTop="@dimen/vertical_margin"
                         android:showDividers="middle" />
 
-                    <com.kopra.movieapp.widget.RobotoTextView
-                        style="@style/Text.Title.Section"
+                    <LinearLayout
+                        android:id="@+id/upcomingTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:paddingLeft="@dimen/horizontal_margin"
+                        android:paddingRight="@dimen/horizontal_margin"
                         android:paddingTop="@dimen/vertical_margin"
-                        android:text="@string/upcoming" />
+                        android:paddingBottom="@dimen/vertical_margin"
+                        android:background="?android:attr/selectableItemBackground" >
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Title.Section"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/upcoming" />
+
+                        <com.kopra.movieapp.widget.RobotoTextView
+                            style="@style/Text.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/more" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/upcoming"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/vertical_margin"
                         android:divider="@drawable/layout_horizontal_divider"
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/vertical_margin"
                         android:paddingLeft="@dimen/horizontal_margin_small"
                         android:paddingRight="@dimen/horizontal_margin_small"
-                        android:paddingTop="@dimen/vertical_margin"
                         android:showDividers="middle" />
                 </LinearLayout>
             </ScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
-        
+
         <LinearLayout
             android:id="@android:id/empty"
             android:layout_width="match_parent"
@@ -133,15 +209,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/vertical_margin"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/error_unknown" />
-            
+                android:text="@string/error_unknown"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
             <Button
                 android:id="@+id/emptyAction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/retry" />
+                android:text="@string/retry"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
     </FrameLayout>
 

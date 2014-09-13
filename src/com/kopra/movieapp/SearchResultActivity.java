@@ -13,17 +13,12 @@ public class SearchResultActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
+			setCategory(Category.NONE);
 			String query = getIntent().getStringExtra("query");
 			getFragmentManager()
 					.beginTransaction()
 					.add(R.id.container, MovieListFragment.newInstance(Consts.List.SEARCH, query), TAG)
 					.commit();
 		}
-	}
-
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setCategory(Category.NONE);
 	}
 }

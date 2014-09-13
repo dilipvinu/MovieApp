@@ -20,7 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/poster"
-        android:layout_marginLeft="@dimen/horizontal_margin" />
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:maxLines="2"
+        android:ellipsize="end" />
     
     <com.kopra.movieapp.widget.RobotoTextView 
         android:id="@+id/cast"

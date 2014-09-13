@@ -9,6 +9,10 @@ import com.kopra.movieapp.R;
 public class ErrorHandler {
 
 	public static int getMessage(VolleyError error) {
+		if (error == null) {
+			return R.string.error_unknown;
+		}
+		
 		if (error instanceof NetworkError) {
 			return R.string.error_connection;
 		}

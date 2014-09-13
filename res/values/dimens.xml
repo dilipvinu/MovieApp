@@ -9,13 +9,16 @@
     <dimen name="horizontal_margin_small">8dp</dimen>
     <dimen name="vertical_margin">8dp</dimen>
     
-    <dimen name="drawable_padding">6dp</dimen>
+    <dimen name="drawable_padding">5dp</dimen>
+    <dimen name="drawable_padding_large">8dp</dimen>
     
     <dimen name="thumb_width">40dp</dimen>
     <dimen name="thumb_height">60dp</dimen>
     
     <dimen name="poster_width">110dp</dimen>
     <dimen name="poster_height">164dp</dimen>
+    
+    <dimen name="corner">2dp</dimen>
     
     <dimen name="list_item_min_height">88dp</dimen>
     

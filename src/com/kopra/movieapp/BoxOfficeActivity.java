@@ -1,9 +1,10 @@
 package com.kopra.movieapp;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.kopra.movieapp.util.Category;
 import com.kopra.movieapp.util.Consts;
-
-import android.os.Bundle;
 
 public class BoxOfficeActivity extends BaseActivity {
 
@@ -13,6 +14,7 @@ public class BoxOfficeActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
+			setCategory(Category.BOX_OFFICE);
 			getFragmentManager()
 				.beginTransaction()
 				.add(R.id.container, MovieListFragment.newInstance(Consts.List.BOX_OFFICE, null), TAG)
@@ -21,9 +23,10 @@ public class BoxOfficeActivity extends BaseActivity {
 	}
 	
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setCategory(Category.BOX_OFFICE);
+	public void onBackPressed() {
+		Intent intent = new Intent(this, HomeActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
-	
 }

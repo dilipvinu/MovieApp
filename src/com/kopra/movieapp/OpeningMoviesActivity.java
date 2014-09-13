@@ -3,6 +3,7 @@ package com.kopra.movieapp;
 import com.kopra.movieapp.util.Category;
 import com.kopra.movieapp.util.Consts;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public class OpeningMoviesActivity extends BaseActivity {
@@ -13,6 +14,7 @@ public class OpeningMoviesActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (savedInstanceState == null) {
+			setCategory(Category.OPENING);
 			getFragmentManager()
 				.beginTransaction()
 				.add(R.id.container, MovieListFragment.newInstance(Consts.List.OPENING, null), TAG)
@@ -21,9 +23,10 @@ public class OpeningMoviesActivity extends BaseActivity {
 	}
 	
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		setCategory(Category.OPENING);
+	public void onBackPressed() {
+		Intent intent = new Intent(this, HomeActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
-	
 }

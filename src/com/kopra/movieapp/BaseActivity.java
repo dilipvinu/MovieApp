@@ -31,6 +31,10 @@ public class BaseActivity extends Activity  implements
 		super.onCreate(savedInstanceState);
 		setContentView(layoutResID);
 		
+		if (savedInstanceState != null) {
+			mCurrentSelectedPosition = savedInstanceState.getInt("selected_position");
+		}
+		
 		mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManager()
 				.findFragmentById(R.id.navigation_drawer);
 		mTitle = getTitle();
@@ -41,10 +45,9 @@ public class BaseActivity extends Activity  implements
 	}
 	
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-		
-		
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putInt("selected_position", mCurrentSelectedPosition);
+		super.onSaveInstanceState(outState);
 	}
 	
 	@Override
