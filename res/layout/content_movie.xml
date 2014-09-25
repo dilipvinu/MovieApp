@@ -35,7 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:layout_toRightOf="@+id/poster" />
+            android:layout_toRightOf="@+id/poster"
+            android:paddingBottom="@dimen/vertical_margin"
+            android:textColor="@color/text_secondary" />
 
         <com.kopra.movieapp.widget.RobotoTextView
             android:id="@+id/summary"
@@ -44,45 +46,183 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/runtime"
             android:layout_toRightOf="@+id/poster"
-            android:paddingTop="@dimen/vertical_margin" />
+            android:layout_alignBottom="@+id/poster"
+            android:ellipsize="end" />
     </RelativeLayout>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:background="@color/black_12" />
 
     <LinearLayout
         android:id="@+id/ratingBar"
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="horizontal"
         android:paddingBottom="@dimen/vertical_margin"
         android:paddingLeft="@dimen/horizontal_margin"
         android:paddingRight="@dimen/horizontal_margin"
-        android:paddingTop="@dimen/vertical_margin" >
-
-        <com.kopra.movieapp.widget.RobotoTextView
-            android:layout_width="wrap_content"
+        android:paddingTop="@dimen/vertical_margin"
+        android:showDividers="middle"
+        android:divider="@drawable/layout_horizontal_divider"
+        android:baselineAligned="false" >
+        
+        <LinearLayout 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingRight="@dimen/drawable_padding"
-            android:text="@string/ratings" />
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
 
-        <RatingBar
-            android:id="@+id/rating"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/imdbLogo" 
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thumb_height"
+                android:paddingLeft="@dimen/horizontal_margin_small"
+        		android:paddingRight="@dimen/horizontal_margin_small"
+                android:src="@drawable/imdb"
+                android:contentDescription="@string/audience" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView 
+                style="@style/Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/imdb"
+                app:typeface="roboto_condensed_regular" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView
+                style="@style/Text.Title"
+                android:id="@+id/imdbRating" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:isIndicator="true"
-            android:numStars="10"
-            android:stepSize="0.1" />
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+            
+            <ImageView 
+                android:id="@+id/flixsterLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thumb_height"
+                android:paddingLeft="@dimen/horizontal_margin_small"
+        		android:paddingRight="@dimen/horizontal_margin_small"
+                android:src="@drawable/popcorn"
+                android:contentDescription="@string/critics" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView 
+                style="@style/Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flixster"
+                app:typeface="roboto_condensed_regular" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView
+                style="@style/Text.Title"
+                android:id="@+id/flixsterRating" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            
+        </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
 
-        <com.kopra.movieapp.widget.RobotoTextView
-            android:id="@+id/ratingText"
-            style="@style/Text.Subhead"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/rottenLogo" 
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thumb_height"
+                android:paddingLeft="@dimen/horizontal_margin_small"
+        		android:paddingRight="@dimen/horizontal_margin_small"
+                android:src="@drawable/fresh"
+                android:contentDescription="@string/audience" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView 
+                style="@style/Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tomatoes"
+                app:typeface="roboto_condensed_regular" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView
+                style="@style/Text.Title"
+                android:id="@+id/rottenRating" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            
+        </LinearLayout>
+
+        <LinearLayout 
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/drawable_padding"
-            app:typeface="roboto_medium" />
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/metacriticLogo" 
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/thumb_height"
+                android:paddingLeft="@dimen/horizontal_margin_small"
+        		android:paddingRight="@dimen/horizontal_margin_small"
+                android:src="@drawable/metacritic"
+                android:contentDescription="@string/audience" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView 
+                style="@style/Text.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/metacritic"
+                app:typeface="roboto_condensed_regular" />
+            
+            <com.kopra.movieapp.widget.RobotoTextView
+                style="@style/Text.Title"
+                android:id="@+id/metacriticRating" 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            
+        </LinearLayout>
+
     </LinearLayout>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/vertical_margin"
+        android:layout_marginLeft="@dimen/horizontal_margin"
+        android:layout_marginRight="@dimen/horizontal_margin"
+        android:background="@color/black_12" />
+    
+    <com.kopra.movieapp.widget.RobotoTextView
+        style="@style/Text.Body.Section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingTop="@dimen/vertical_margin"
+        android:text="@string/cast" />
+
+    <com.kopra.movieapp.widget.RobotoTextView
+        android:id="@+id/cast"
+        style="@style/Text.Body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/vertical_margin"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin" />
 
     <com.kopra.movieapp.widget.RobotoTextView
         style="@style/Text.Body.Section"

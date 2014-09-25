@@ -18,3 +18,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Settings for EventBus
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+
+# Settings for okHttp
+-dontwarn okio.**
+-dontwarn com.squareup.okhttp.**

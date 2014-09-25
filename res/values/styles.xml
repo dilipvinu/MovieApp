@@ -29,6 +29,12 @@
         <item name="android:selectableItemBackground">@drawable/apptheme_item_background_holo_light</item>
         <item name="android:activatedBackgroundIndicator">@drawable/apptheme_activated_background_holo_light</item>
     </style>
+    
+    <style name="TransparentTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 
     <style name="Text" parent="android:Widget.TextView">
         <item name="android:drawablePadding">@dimen/drawable_padding</item>
@@ -53,11 +59,13 @@
     <style name="Text.Body">
         <item name="android:textColor">@color/text_primary</item>
         <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
     </style>
     
     <style name="Text.Body.Section">
         <item name="android:gravity">center_vertical</item>
         <item name="android:textAllCaps">true</item>
+        <item name="android:textScaleX">1.1</item>
         <item name="typeface">roboto_medium</item>
     </style>
 
@@ -66,7 +74,13 @@
     </style>
 
     <style name="Text.Caption">
+        <item name="android:textColor">@color/text_secondary</item>
         <item name="android:textSize">@dimen/text_caption</item>
+    </style>
+    
+    <style name="Text.Caption.Section">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAllCaps">true</item>
     </style>
     
     <style name="Text.Button">

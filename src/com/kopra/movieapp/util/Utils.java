@@ -6,6 +6,8 @@ import java.net.URLEncoder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.kopra.movieapp.R;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -67,5 +69,16 @@ public class Utils {
 		default:
 			return null;
 		}
+	}
+	
+	public static String formatTime(Context context, int time) {
+		if (time <= 0) {
+			return context.getString(R.string.na);
+		}
+		
+		int hours = time / 60;
+		int minutes = time % 60;
+		return String.valueOf(hours) + " " + context.getResources().getQuantityString(R.plurals.hour, hours) + " " + 
+				String.valueOf(minutes) + " " + context.getResources().getQuantityString(R.plurals.minute, minutes);
 	}
 }

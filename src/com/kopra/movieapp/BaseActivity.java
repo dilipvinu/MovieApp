@@ -45,6 +45,14 @@ public class BaseActivity extends Activity  implements
 	}
 	
 	@Override
+	protected void onPause() {
+		super.onPause();
+		if (mSearchMenu != null) {
+			mSearchMenu.collapseActionView();
+		}
+	}
+	
+	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		outState.putInt("selected_position", mCurrentSelectedPosition);
 		super.onSaveInstanceState(outState);

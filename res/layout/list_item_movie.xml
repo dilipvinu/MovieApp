@@ -12,6 +12,7 @@
         android:id="@+id/poster"
         android:layout_width="@dimen/thumb_width"
         android:layout_height="@dimen/thumb_height"
+        android:layout_centerVertical="true"
         android:scaleType="fitCenter" />
     
     <com.kopra.movieapp.widget.RobotoTextView 

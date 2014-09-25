@@ -26,5 +26,13 @@
     <string name="retry">Retry</string>
     <string name="more">More</string>
     <string name="share_url">http://www.imdb.com/title/tt%s</string>
+    <string name="critics">Critics</string>
+    <string name="audience">Audience</string>
+    <string name="imdb">IMdB</string>
+    <string name="flixster">Flixster</string>
+    <string name="tomatoes">Tomatoes</string>
+    <string name="metacritic">Metacritic</string>
+    <string name="cast">Cast</string>
+    <string name="na">N/A</string>
 
 </resources>

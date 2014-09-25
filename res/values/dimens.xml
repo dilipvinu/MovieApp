@@ -15,8 +15,8 @@
     <dimen name="thumb_width">40dp</dimen>
     <dimen name="thumb_height">60dp</dimen>
     
-    <dimen name="poster_width">110dp</dimen>
-    <dimen name="poster_height">164dp</dimen>
+    <dimen name="poster_width">108dp</dimen>
+    <dimen name="poster_height">162dp</dimen>
     
     <dimen name="corner">2dp</dimen>
     
@@ -30,5 +30,8 @@
     <dimen name="text_button">14sp</dimen>
     
     <dimen name="navigation_drawer_width">240dp</dimen>
+    
+    <dimen name="poster_full_width">320dp</dimen>
+    <dimen name="poster_full_height">480dp</dimen>
 
 </resources>

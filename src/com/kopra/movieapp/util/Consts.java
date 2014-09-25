@@ -6,7 +6,7 @@ public class Consts {
 		public static final int		TIMEOUT = 5000;
 		public static final int		LIMIT_SUGGESTION = 5;
 		public static final int		LIMIT_SEARCH = 16;
-		public static final int		LIMIT_COLLECTION = 5;
+		public static final int		LIMIT_COLLECTION = 6;
 	}
 	
 	public static final class Api {
@@ -17,6 +17,8 @@ public class Consts {
 		public static final String	OPENING = "/lists/movies/opening.json?limit={limit}&country=us&apikey={key}";
 		public static final String	UPCOMING = "/lists/movies/upcoming.json?page_limit={limit}&page=1&country=us&apikey={key}";
 		public static final String	MOVIE_DETAIL = "/movies/%s.json?apikey={key}";
+		public static final String	SIMILAR = "/movies/%s/similar.json?limit={limit}&apikey={key}";
+		
 		public static final String	BASE_OMDB = "http://www.omdbapi.com";
 		public static final String	MOVIE_DETAIL_OMDB = "/?i=tt%s";
 	}
