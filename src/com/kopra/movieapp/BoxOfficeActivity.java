@@ -17,7 +17,7 @@ public class BoxOfficeActivity extends BaseActivity {
 			setCategory(Category.BOX_OFFICE);
 			getFragmentManager()
 				.beginTransaction()
-				.add(R.id.container, MovieListFragment.newInstance(Consts.List.BOX_OFFICE, null), TAG)
+				.add(R.id.container, MovieListFragment.newInstance(Consts.List.BOX_OFFICE, null, false), TAG)
 				.commit();
 		}
 	}

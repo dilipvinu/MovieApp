@@ -17,7 +17,7 @@ public class SearchResultActivity extends BaseActivity {
 			String query = getIntent().getStringExtra("query");
 			getFragmentManager()
 					.beginTransaction()
-					.add(R.id.container, MovieListFragment.newInstance(Consts.List.SEARCH, query), TAG)
+					.add(R.id.container, MovieListFragment.newInstance(Consts.List.SEARCH, query, true), TAG)
 					.commit();
 		}
 	}

@@ -17,7 +17,7 @@ public class UpcomingMoviesActivity extends BaseActivity {
 			setCategory(Category.UPCOMING);
 			getFragmentManager()
 				.beginTransaction()
-				.add(R.id.container, MovieListFragment.newInstance(Consts.List.UPCOMING, null), TAG)
+				.add(R.id.container, MovieListFragment.newInstance(Consts.List.UPCOMING, null, true), TAG)
 				.commit();
 		}
 	}

@@ -17,7 +17,7 @@ public class InTheatersActivity extends BaseActivity {
 			setCategory(Category.IN_THEATERS);
 			getFragmentManager()
 				.beginTransaction()
-				.add(R.id.container, MovieListFragment.newInstance(Consts.List.IN_THEATERS, null), TAG)
+				.add(R.id.container, MovieListFragment.newInstance(Consts.List.IN_THEATERS, null, true), TAG)
 				.commit();
 		}
 	}

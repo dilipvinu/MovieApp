@@ -31,6 +31,7 @@ import com.kopra.movieapp.util.Utils;
 import com.kopra.movieapp.view.Event;
 import com.kopra.movieapp.view.MovieListEvent;
 import com.kopra.movieapp.widget.MovieAdapter;
+import com.kopra.movieapp.widget.PagedAdapter;
 
 import de.greenrobot.event.EventBus;
 
@@ -45,14 +46,19 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	private TextView mEmptyMessage;
 	private Button mEmptyAction;
 	
+	private PagedAdapter mAdapter;
+	private List<JSONObject> mList = new ArrayList<JSONObject>();
+	
 	private boolean mRefreshing;
 	private boolean mShown = true;
+	private int mPage = 1;
 	
-	public static MovieListFragment newInstance(int type, String query) {
+	public static MovieListFragment newInstance(int type, String query, boolean paged) {
 		MovieListFragment fragment = new MovieListFragment();
 		Bundle args = new Bundle();
 		args.putInt("type", type);
 		args.putString("query", query);
+		args.putBoolean("paged", paged);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -66,6 +72,7 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		String url = new UrlBuilder(getActivity())
 				.setBase(Consts.Api.BASE)
 				.setMethod(String.format(Utils.getApiMethod(type), Utils.encode(query)))
+				.setPage(mPage)
 				.setLimit(Consts.Config.LIMIT_SEARCH)
 				.build();
 		JsonObjectRequest request = new JsonObjectRequest(
@@ -106,6 +113,7 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 			mRefreshing = savedInstanceState.getBoolean("refreshing");
 			mShown = savedInstanceState.getBoolean("shown");
 			mResults = Utils.toJson(savedInstanceState.getString("results"));
+			mPage = savedInstanceState.getInt("page");
 			processResponse(mResults);
 		} else {
 			showList(false, false);
@@ -130,6 +138,7 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		outState.putBoolean("refreshing", mRefreshing);
 		outState.putBoolean("shown", mShown);
 		outState.putString("results", mResults != null ? mResults.toString() : null);
+		outState.putInt("page", mPage);
 		super.onSaveInstanceState(outState);
 	}
 	
@@ -151,8 +160,8 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		mSwipeContainer.setRefreshing(false);
 		
 		if (event.getStatus() == Event.SUCCESS) {
-			mResults = event.getResponse();
-			processResponse(mResults);
+			appendResults(event.getResponse());
+			processResponse(event.getResponse());
 		} else {
 			mEmptyMessage.setText(ErrorHandler.getMessage(event.getError()));
 			showList(true, false);
@@ -227,13 +236,47 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		}
 		
 		try {
+			int total = response.optInt("total");
 			JSONArray movies = response.getJSONArray("movies");
-			List<JSONObject> list = new ArrayList<JSONObject>();
 			for (int index = 0; index < movies.length(); index++) {
-				list.add(movies.getJSONObject(index));
+				mList.add(movies.getJSONObject(index));
 			}
-			setListAdapter(new MovieAdapter(getActivity(), list));
-			showList(true, true);
+			if (mAdapter == null) {
+				MovieAdapter adapter = new MovieAdapter(getActivity(), mList);
+				mAdapter = new PagedAdapter(getActivity(), adapter, getArguments().getBoolean("paged"));
+				mAdapter.setOnCacheListener(onCacheListener);
+				mAdapter.setPage(mPage);
+				setListAdapter(mAdapter);
+				showList(true, true);
+			}
+			mAdapter.onDataReady(mList.size() < total);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private PagedAdapter.OnCacheListener onCacheListener = new PagedAdapter.OnCacheListener() {
+		@Override
+		public void onCache(int page) {
+			mPage = page;
+			search(getArguments().getString("query"));
+		}
+	};
+	
+	private void appendResults(JSONObject response) {
+		try {
+			if (mResults == null) {
+				mResults = new JSONObject();
+				mResults.put("movies", new JSONArray());
+			}
+			
+			int total = response.optInt("total");
+			mResults.put("total", total);
+			
+			JSONArray movies = response.getJSONArray("movies");
+			for (int index = 0; index < movies.length(); index++) {
+				mResults.getJSONArray("movies").put(movies.getJSONObject(index));
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

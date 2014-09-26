@@ -90,6 +90,15 @@
         <item name="android:background">@drawable/rounded_rect</item>
         <item name="android:textAllCaps">true</item>
     </style>
+    
+    <style name="ProgressBar" parent="android:Widget.Holo.Light.ProgressBar.Inverse" />
+    
+    <style name="ProgressBar.Medium">
+        <item name="android:minWidth">@dimen/progressbar_medium</item>
+        <item name="android:minHeight">@dimen/progressbar_medium</item>
+        <item name="android:maxWidth">@dimen/progressbar_medium</item>
+        <item name="android:maxHeight">@dimen/progressbar_medium</item>
+    </style>
 
     <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
         <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>

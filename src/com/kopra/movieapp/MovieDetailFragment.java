@@ -310,21 +310,20 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 			if (!movie.isNull("alternate_ids") && !movie.getJSONObject("alternate_ids").isNull("imdb")) {
 				String id = movie.getJSONObject("alternate_ids").getString("imdb");
 				method = String.format(Consts.Api.MOVIE_DETAIL_OMDB, id);
+				
+				String url = new UrlBuilder(getActivity())
+						.setBase(Consts.Api.BASE_OMDB)
+						.setMethod(method)
+						.build();
+				JsonObjectRequest request = new JsonObjectRequest(url, null, onResponse, onError);
+				
+				mRequestQueue.add(request);
+				mRefreshing = true;
 			} else {
-				Toast.makeText(getActivity(), R.string.no_imdb_entry, Toast.LENGTH_SHORT).show();
-				getActivity().finish();
-				return;
+				mIMDbMovie = new JSONObject();
+				setupView();
 			}
 		} catch (JSONException e) {}
-
-		String url = new UrlBuilder(getActivity())
-				.setBase(Consts.Api.BASE_OMDB)
-				.setMethod(method)
-				.build();
-		JsonObjectRequest request = new JsonObjectRequest(url, null, onResponse, onError);
-		
-		mRequestQueue.add(request);
-		mRefreshing = true;
 	}
 	
 	private void showContent(boolean show, boolean animate) {
@@ -394,7 +393,7 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 			mRuntimeView.setText(Utils.formatTime(getActivity(), movie.optInt("runtime")));
 			mRuntimeView.setCompoundDrawablesWithIntrinsicBounds(Rated.getDrawable(mIMDbMovie.getString("Rated")), 0, 0, 0);
 			
-			mSummaryView.setText(!mIMDbMovie.isNull("Plot") ? mIMDbMovie.getString("Plot") : getString(R.string.na));
+			mSummaryView.setText(!mIMDbMovie.isNull("Plot") ? mIMDbMovie.getString("Plot") : null);
 			
 			float imdbScore = (!mIMDbMovie.isNull("imdbRating") ? (float) mIMDbMovie.optDouble("imdbRating", 0) : 0);
 			int criticScore = movie.getJSONObject("ratings").optInt("critics_score");

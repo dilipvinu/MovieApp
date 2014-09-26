@@ -17,7 +17,7 @@ public class OpeningMoviesActivity extends BaseActivity {
 			setCategory(Category.OPENING);
 			getFragmentManager()
 				.beginTransaction()
-				.add(R.id.container, MovieListFragment.newInstance(Consts.List.OPENING, null), TAG)
+				.add(R.id.container, MovieListFragment.newInstance(Consts.List.OPENING, null, false), TAG)
 				.commit();
 		}
 	}

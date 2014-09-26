@@ -9,6 +9,7 @@ public class UrlBuilder {
 	private Context mContext;
 	private String mBase;
 	private String mMethod;
+	private int mPage;
 	private int mLimit;
 	
 	public UrlBuilder(Context context) {
@@ -25,6 +26,11 @@ public class UrlBuilder {
 		return this;
 	}
 	
+	public UrlBuilder setPage(int page) {
+		this.mPage = page;
+		return this;
+	}
+	
 	public UrlBuilder setLimit(int limit) {
 		this.mLimit = limit;
 		return this;
@@ -32,6 +38,7 @@ public class UrlBuilder {
 	
 	public String build() {
 		String url = mBase + mMethod;
-		return Utils.getUrlWithKey(mContext, url.replace("{limit}", String.valueOf(mLimit)));
+		return Utils.getUrlWithKey(mContext, 
+				url.replace("{page}", String.valueOf(mPage)).replace("{limit}", String.valueOf(mLimit)));
 	}
 }

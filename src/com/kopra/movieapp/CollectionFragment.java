@@ -133,6 +133,7 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 		String url = new UrlBuilder(getActivity())
 				.setBase(Consts.Api.BASE)
 				.setMethod(Utils.getApiMethod(type))
+				.setPage(1)
 				.setLimit(Consts.Config.LIMIT_COLLECTION)
 				.build();
 		JsonObjectRequest request = new JsonObjectRequest(

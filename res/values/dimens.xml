@@ -33,5 +33,7 @@
     
     <dimen name="poster_full_width">320dp</dimen>
     <dimen name="poster_full_height">480dp</dimen>
+    
+    <dimen name="progressbar_medium">32dp</dimen>
 
 </resources>

@@ -74,6 +74,7 @@ public class SearchSuggestionsProvider extends ContentProvider {
 		String url = new UrlBuilder(getContext())
 				.setBase(Consts.Api.BASE)
 				.setMethod(String.format(Consts.Api.SEARCH, Utils.encode(query)))
+				.setPage(1)
 				.setLimit(Consts.Config.LIMIT_SUGGESTION)
 				.build();
 		RequestFuture<JSONObject> future = RequestFuture.newFuture();
