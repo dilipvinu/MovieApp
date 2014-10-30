@@ -7,6 +7,7 @@ public class Consts {
 		public static final int		LIMIT_SUGGESTION = 5;
 		public static final int		LIMIT_SEARCH = 18;
 		public static final int		LIMIT_COLLECTION = 6;
+		public static final int		MAX_PAGE = 25;
 	}
 	
 	public static final class Api {

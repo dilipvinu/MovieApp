@@ -391,7 +391,7 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 			mTitleView.setText(titleSpan);
 
 			mRuntimeView.setText(Utils.formatTime(getActivity(), movie.optInt("runtime")));
-			mRuntimeView.setCompoundDrawablesWithIntrinsicBounds(Rated.getDrawable(mIMDbMovie.getString("Rated")), 0, 0, 0);
+			mRuntimeView.setCompoundDrawablesWithIntrinsicBounds(Rated.getDrawable(mIMDbMovie.optString("Rated")), 0, 0, 0);
 			
 			mSummaryView.setText(!mIMDbMovie.isNull("Plot") ? mIMDbMovie.getString("Plot") : null);
 			

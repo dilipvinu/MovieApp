@@ -31,7 +31,6 @@ import com.kopra.movieapp.util.Utils;
 import com.kopra.movieapp.view.Event;
 import com.kopra.movieapp.view.MovieListEvent;
 import com.kopra.movieapp.widget.MovieAdapter;
-import com.kopra.movieapp.widget.PagedAdapter;
 
 import de.greenrobot.event.EventBus;
 
@@ -43,15 +42,19 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	private View mProgressContainer;
 	private View mListContainer;
 	private SwipeRefreshLayout mSwipeContainer;
+	private View mFooterView;
 	private TextView mEmptyMessage;
 	private Button mEmptyAction;
 	
-	private PagedAdapter mAdapter;
+	private MovieAdapter mAdapter;
 	private List<JSONObject> mList = new ArrayList<JSONObject>();
 	
 	private boolean mRefreshing;
+	private boolean mLoading;
 	private boolean mShown = true;
+	private boolean mHasRequestedMore;
 	private int mPage = 1;
+	private int mTotal;
 	
 	public static MovieListFragment newInstance(int type, String query, boolean paged) {
 		MovieListFragment fragment = new MovieListFragment();
@@ -78,7 +81,7 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		JsonObjectRequest request = new JsonObjectRequest(
 				url, null, onResponse, onError);
 		mRequestQueue.add(request);
-		mRefreshing = true;
+		mLoading = true;
 	}
 	
 	@Override
@@ -101,6 +104,9 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		mEmptyMessage = (TextView) view.findViewById(R.id.emptyMessage);
 		mEmptyAction = (Button) view.findViewById(R.id.emptyAction);
 		mEmptyAction.setOnClickListener(onClick);
+		
+		mFooterView = getActivity().getLayoutInflater().inflate(R.layout.list_item_pending, (ViewGroup) getView(), false);
+		addFooterView(mFooterView);
 	}
 	
 	@Override
@@ -111,9 +117,12 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		
 		if (savedInstanceState != null) {
 			mRefreshing = savedInstanceState.getBoolean("refreshing");
+			mLoading = savedInstanceState.getBoolean("loading");
 			mShown = savedInstanceState.getBoolean("shown");
 			mResults = Utils.toJson(savedInstanceState.getString("results"));
+			mHasRequestedMore = savedInstanceState.getBoolean("requested_more");
 			mPage = savedInstanceState.getInt("page");
+			mTotal = savedInstanceState.getInt("total");
 			processResponse(mResults);
 		} else {
 			showList(false, false);
@@ -136,9 +145,12 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		outState.putBoolean("refreshing", mRefreshing);
+		outState.putBoolean("loading", mLoading);
 		outState.putBoolean("shown", mShown);
 		outState.putString("results", mResults != null ? mResults.toString() : null);
+		outState.putBoolean("requested_more", mHasRequestedMore);
 		outState.putInt("page", mPage);
+		outState.putInt("total", mTotal);
 		super.onSaveInstanceState(outState);
 	}
 	
@@ -151,15 +163,34 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	}
 	
 	@Override
+	public void onListScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+		if (!mRefreshing && !mHasRequestedMore) {
+			int lastInScreen = firstVisibleItem + visibleItemCount;
+			if (lastInScreen >= totalItemCount && totalItemCount < mTotal) {
+				mHasRequestedMore = true;
+				mPage++;
+				search(getArguments().getString("query"));
+			}
+		}
+	}
+	
+	@Override
 	public void onRefresh() {
+		mRefreshing = true;
+		mPage = 1;
 		search(getArguments().getString("query"));
 	}
 	
 	public void onEventMainThread(MovieListEvent event) {
-		mRefreshing = false;
+		mLoading = false;
 		mSwipeContainer.setRefreshing(false);
 		
 		if (event.getStatus() == Event.SUCCESS) {
+			if (mRefreshing) {
+				clearResults();
+				removeFooterView(mFooterView);
+				addFooterView(mFooterView);
+			}
 			appendResults(event.getResponse());
 			processResponse(event.getResponse());
 		} else {
@@ -224,7 +255,7 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	}
 	
 	private void processResponse(JSONObject response) {
-		if (mRefreshing) {
+		if (mLoading) {
 			showList(false, false);
 			return;
 		}
@@ -236,32 +267,30 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		}
 		
 		try {
-			int total = response.optInt("total");
+			mTotal = response.optInt("total");
+			if (mRefreshing) {
+				mRefreshing = false;
+				mList.clear();
+			}
 			JSONArray movies = response.getJSONArray("movies");
 			for (int index = 0; index < movies.length(); index++) {
 				mList.add(movies.getJSONObject(index));
 			}
 			if (mAdapter == null) {
-				MovieAdapter adapter = new MovieAdapter(getActivity(), mList);
-				mAdapter = new PagedAdapter(getActivity(), adapter, getArguments().getBoolean("paged"));
-				mAdapter.setOnCacheListener(onCacheListener);
-				mAdapter.setPage(mPage);
+				mAdapter = new MovieAdapter(getActivity(), mList);
 				setListAdapter(mAdapter);
 				showList(true, true);
 			}
-			mAdapter.onDataReady(mList.size() < total);
+			mAdapter.notifyDataSetChanged();
+			mHasRequestedMore = false;
+			
+			if (mList.size() >= mTotal || mPage >= Consts.Config.MAX_PAGE) {
+				removeFooterView(mFooterView);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	private PagedAdapter.OnCacheListener onCacheListener = new PagedAdapter.OnCacheListener() {
-		@Override
-		public void onCache(int page) {
-			mPage = page;
-			search(getArguments().getString("query"));
-		}
-	};
 	
 	private void appendResults(JSONObject response) {
 		try {
@@ -277,6 +306,17 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 			for (int index = 0; index < movies.length(); index++) {
 				mResults.getJSONArray("movies").put(movies.getJSONObject(index));
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void clearResults() {
+		try {
+			if (mResults == null) {
+				mResults = new JSONObject();
+			}
+			mResults.put("movies", new JSONArray());
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

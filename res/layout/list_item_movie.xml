@@ -12,7 +12,6 @@
         android:id="@+id/poster"
         android:layout_width="@dimen/thumb_width"
         android:layout_height="@dimen/thumb_height"
-        android:layout_centerVertical="true"
         android:scaleType="fitCenter" />
     
     <com.kopra.movieapp.widget.RobotoTextView 
@@ -22,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/poster"
         android:layout_marginLeft="@dimen/horizontal_margin"
-        android:maxLines="2"
+        android:singleLine="true"
         android:ellipsize="end" />
     
     <com.kopra.movieapp.widget.RobotoTextView 
@@ -33,7 +32,7 @@
         android:layout_toRightOf="@+id/poster"
         android:layout_below="@+id/title"
         android:layout_marginLeft="@dimen/horizontal_margin"
-        android:maxLines="2"
+        android:lines="2"
         android:ellipsize="end" />
 
 </RelativeLayout>
