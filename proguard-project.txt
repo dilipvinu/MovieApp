@@ -27,3 +27,6 @@
 # Settings for okHttp
 -dontwarn okio.**
 -dontwarn com.squareup.okhttp.**
+
+# Settings for Android support library
+-keep class android.support.v7.widget.** { *; }

@@ -25,7 +25,7 @@ public class Consts {
 	}
 	
 	public static final class List {
-		public static final int		SEARCH = 0;
+		public static final int		SEARCH = -1;
 		public static final int		BOX_OFFICE = 1;
 		public static final int		IN_THEATERS = 2;
 		public static final int		OPENING = 3;

@@ -18,7 +18,9 @@ import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.ShareActionProvider;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -36,7 +38,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ShareActionProvider;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ import com.kopra.movieapp.view.MovieDetailEvent;
 
 import de.greenrobot.event.EventBus;
 
-public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TypeFragment {
 
 	private View mProgressContainer;
 	private View mListContainer;
@@ -105,6 +106,12 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (savedInstanceState != null) {
+			mShown = savedInstanceState.getBoolean("shown");
+			mRefreshing = savedInstanceState.getBoolean("refreshing");
+			mIMDbMovie = Utils.toJson(savedInstanceState.getString("movie"));
+			mPlotDialogShown = savedInstanceState.getBoolean("plot_dialog_shown");
+		}
 		setHasOptionsMenu(true);
 	}
 	
@@ -200,7 +207,7 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 		inflater.inflate(R.menu.details, menu);
 		
 		MenuItem mnuShare = menu.findItem(R.id.action_share);
-		mShareProvider = (ShareActionProvider) mnuShare.getActionProvider();
+		mShareProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(mnuShare);
 		setShareIntent();
 	}
 	
@@ -228,6 +235,16 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 	@Override
 	public void onRefresh() {
 		loadMovie();
+	}
+	
+	@Override
+	public int getType() {
+		return -1;
+	}
+	
+	@Override
+	public String getTitle() {
+		return getString(R.string.app_name);
 	}
 
 	public void onEventMainThread(MovieDetailEvent event) {
@@ -301,7 +318,7 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 	private void loadMovie() {
 		JSONObject movie = Utils.toJson(getArguments().getString("movie"));
 		if (movie == null) {
-			getActivity().finish();
+			getFragmentManager().popBackStack();
 			return;
 		}
 		
@@ -439,7 +456,7 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 		} catch (JSONException e) {
 			e.printStackTrace();
 			Toast.makeText(getActivity(), "Error occured", Toast.LENGTH_SHORT).show();
-			getActivity().finish();
+			getFragmentManager().popBackStack();
 			return;
 		}
 	}
@@ -477,7 +494,6 @@ public class MovieDetailFragment extends Fragment implements SwipeRefreshLayout.
 				
 				Intent shareIntent = new Intent(Intent.ACTION_SEND);
 				shareIntent.setType("text/plain");
-				shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 				shareIntent.putExtra(Intent.EXTRA_SUBJECT, caption);
 				shareIntent.putExtra(Intent.EXTRA_TEXT, url);
 				

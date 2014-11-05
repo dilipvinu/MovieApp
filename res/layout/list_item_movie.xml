@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/vertical_margin"
-    android:paddingBottom="@dimen/vertical_margin"
     android:paddingLeft="@dimen/horizontal_margin"
     android:paddingRight="@dimen/horizontal_margin"
     android:minHeight="@dimen/list_item_min_height" >
@@ -31,8 +30,18 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/poster"
         android:layout_below="@+id/title"
+        android:layout_marginBottom="@dimen/vertical_margin"
         android:layout_marginLeft="@dimen/horizontal_margin"
         android:lines="2"
         android:ellipsize="end" />
+    
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@+id/title"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/cast"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:background="@color/black_12" />
 
 </RelativeLayout>

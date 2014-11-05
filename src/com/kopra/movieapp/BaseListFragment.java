@@ -32,6 +32,10 @@ public class BaseListFragment extends Fragment {
 	public void onListScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 	}
 	
+	public ListAdapter getListAdapter() {
+		return mList.getAdapter();
+	}
+	
 	public void setListAdapter(ListAdapter adapter) {
 		mList.setAdapter(adapter);
 	}

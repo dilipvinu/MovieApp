@@ -12,7 +12,7 @@ public class MovieDetailActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		setDrawerIndicatorEnabled(false);
 		if (savedInstanceState == null) {
 			setCategory(Category.NONE);

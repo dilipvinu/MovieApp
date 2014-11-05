@@ -7,7 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ import com.kopra.movieapp.widget.MovieAdapter;
 
 import de.greenrobot.event.EventBus;
 
-public class MovieListFragment extends BaseListFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class MovieListFragment extends BaseListFragment implements SwipeRefreshLayout.OnRefreshListener, TypeFragment {
 
 	private RequestQueue mRequestQueue;
 	private JSONObject mResults;
@@ -55,11 +56,14 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	private boolean mHasRequestedMore;
 	private int mPage = 1;
 	private int mTotal;
+	private int mType;
+	private String mTitle;
 	
-	public static MovieListFragment newInstance(int type, String query, boolean paged) {
+	public static MovieListFragment newInstance(int type, String title, String query, boolean paged) {
 		MovieListFragment fragment = new MovieListFragment();
 		Bundle args = new Bundle();
 		args.putInt("type", type);
+		args.putString("title", title);
 		args.putString("query", query);
 		args.putBoolean("paged", paged);
 		fragment.setArguments(args);
@@ -82,6 +86,37 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 				url, null, onResponse, onError);
 		mRequestQueue.add(request);
 		mLoading = true;
+	}
+	
+	@Override
+	public int getType() {
+		return mType;
+	}
+	
+	@Override
+	public String getTitle() {
+		return mTitle;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mType = getArguments().getInt("type");
+		mTitle = getArguments().getString("title");
+		if (savedInstanceState != null) {
+			mRefreshing = savedInstanceState.getBoolean("refreshing");
+			mLoading = savedInstanceState.getBoolean("loading");
+			mShown = savedInstanceState.getBoolean("shown");
+			mResults = Utils.toJson(savedInstanceState.getString("results"));
+			mHasRequestedMore = savedInstanceState.getBoolean("requested_more");
+			mPage = savedInstanceState.getInt("page");
+			mTotal = savedInstanceState.getInt("total");
+		}
 	}
 	
 	@Override
@@ -115,18 +150,23 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		
 		mRequestQueue = VolleyManager.getInstance(getActivity()).getRequestQueue();
 		
-		if (savedInstanceState != null) {
-			mRefreshing = savedInstanceState.getBoolean("refreshing");
-			mLoading = savedInstanceState.getBoolean("loading");
-			mShown = savedInstanceState.getBoolean("shown");
-			mResults = Utils.toJson(savedInstanceState.getString("results"));
-			mHasRequestedMore = savedInstanceState.getBoolean("requested_more");
-			mPage = savedInstanceState.getInt("page");
-			mTotal = savedInstanceState.getInt("total");
-			processResponse(mResults);
+		if (mAdapter == null) {
+			if (savedInstanceState != null) {
+				mRefreshing = savedInstanceState.getBoolean("refreshing");
+				mLoading = savedInstanceState.getBoolean("loading");
+				mShown = savedInstanceState.getBoolean("shown");
+				mResults = Utils.toJson(savedInstanceState.getString("results"));
+				mHasRequestedMore = savedInstanceState.getBoolean("requested_more");
+				mPage = savedInstanceState.getInt("page");
+				mTotal = savedInstanceState.getInt("total");
+				processResponse(mResults);
+			} else {
+				showList(false, false);
+				search(getArguments().getString("query"));
+			}
 		} else {
-			showList(false, false);
-			search(getArguments().getString("query"));
+			setListAdapter(mAdapter);
+			mAdapter.notifyDataSetChanged();
 		}
 	}
 	
@@ -144,22 +184,15 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-		outState.putBoolean("refreshing", mRefreshing);
-		outState.putBoolean("loading", mLoading);
-		outState.putBoolean("shown", mShown);
-		outState.putString("results", mResults != null ? mResults.toString() : null);
-		outState.putBoolean("requested_more", mHasRequestedMore);
-		outState.putInt("page", mPage);
-		outState.putInt("total", mTotal);
 		super.onSaveInstanceState(outState);
+		saveInstance(outState);
 	}
 	
 	@Override
 	public void onListItemClick(AbsListView parent, View view, int position, long id) {
 		JSONObject movie = (JSONObject) parent.getItemAtPosition(position);
-		Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
-		detailIntent.putExtra("movie", movie.toString());
-		startActivity(detailIntent);
+		Fragment fragment = MovieDetailFragment.newInstance(movie.toString());
+		((MainActivity) getActivity()).addFragment(-1, fragment, false);
 	}
 	
 	@Override
@@ -320,6 +353,16 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void saveInstance(Bundle state) {
+		state.putBoolean("refreshing", mRefreshing);
+		state.putBoolean("loading", mLoading);
+		state.putBoolean("shown", mShown);
+		state.putString("results", mResults != null ? mResults.toString() : null);
+		state.putBoolean("requested_more", mHasRequestedMore);
+		state.putInt("page", mPage);
+		state.putInt("total", mTotal);
 	}
 	
 }

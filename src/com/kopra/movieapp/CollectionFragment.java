@@ -5,7 +5,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ import com.kopra.movieapp.view.MovieCollectionEvent;
 
 import de.greenrobot.event.EventBus;
 
-public class CollectionFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CollectionFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, TypeFragment {
 
 	private static final String TAG = "Collection";
 	
@@ -68,6 +67,19 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 	private boolean mRefreshing;
 	private boolean mShown = true;
 	private int mCount = 4;
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if (savedInstanceState != null) {
+			mRefreshing = savedInstanceState.getBoolean("refreshing");
+			mShown = savedInstanceState.getBoolean("shown");
+			mBoxOfficeCollection = Utils.toJson(savedInstanceState.getString("box_office"));
+			mInTheatersCollection = Utils.toJson(savedInstanceState.getString("in_theaters"));
+			mOpeningCollection = Utils.toJson(savedInstanceState.getString("opening"));
+			mUpcomingCollection = Utils.toJson(savedInstanceState.getString("upcoming"));
+		}
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -127,6 +139,16 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 			showList(false, false);
 			loadAllCollections();
 		}
+	}
+	
+	@Override
+	public int getType() {
+		return 0;
+	}
+	
+	@Override
+	public String getTitle() {
+		return getString(R.string.home);
 	}
 	
 	private void loadCollection(final int type) {
@@ -325,25 +347,29 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 	private OnClickListener onTitleClick = new OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			Class<?> cls = null;
+			Fragment fragment;
+			int position = 0;
 			switch (view.getId()) {
 			case R.id.boxOfficeTitle:
-				cls = BoxOfficeActivity.class;
+				position = Consts.List.BOX_OFFICE;
+				fragment = MovieListFragment.newInstance(Consts.List.BOX_OFFICE, getString(R.string.box_office), null, false);
 				break;
 			case R.id.inTheatersTitle:
-				cls = InTheatersActivity.class;
+				position = Consts.List.IN_THEATERS;
+				fragment = MovieListFragment.newInstance(Consts.List.IN_THEATERS, getString(R.string.in_theaters), null, true);
 				break;
 			case R.id.openingTitle:
-				cls = OpeningMoviesActivity.class;
+				position = Consts.List.OPENING;
+				fragment = MovieListFragment.newInstance(Consts.List.OPENING, getString(R.string.opening), null, false);
 				break;
 			case R.id.upcomingTitle:
-				cls = UpcomingMoviesActivity.class;
+				position = Consts.List.UPCOMING;
+				fragment = MovieListFragment.newInstance(Consts.List.UPCOMING, getString(R.string.upcoming), null, true);
 				break;
 			default:
 				return;
 			}
-			Intent intent = new Intent(getActivity(), cls);
-			startActivity(intent);
+			((MainActivity) getActivity()).addFragment(position, fragment, false);
 		}
 	};
 	
@@ -351,9 +377,8 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 		@Override
 		public void onClick(View view) {
 			String movie = (String) view.getTag();
-			Intent detailIntent = new Intent(getActivity(), MovieDetailActivity.class);
-			detailIntent.putExtra("movie", movie);
-			startActivity(detailIntent);
+			Fragment fragment = MovieDetailFragment.newInstance(movie);
+			((MainActivity) getActivity()).addFragment(-1, fragment, false);
 		}
 	};
 	
