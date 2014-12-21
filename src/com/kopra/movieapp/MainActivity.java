@@ -7,6 +7,7 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 
 import com.kopra.movieapp.util.Category;
@@ -57,7 +58,11 @@ public class MainActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (!super.onOptionsItemSelected(item)) {
-			getFragmentManager().popBackStack();
+			switch (item.getItemId()) {
+			case android.R.id.home:
+				getFragmentManager().popBackStack();
+				break;
+			}
 		}
 		return true;
 	}
@@ -145,15 +150,21 @@ public class MainActivity extends BaseActivity {
 		}
 	}
 	
-	public void addFragment(int position, Fragment fragment, boolean clearStack) {
+	public void addFragment(int position, final Fragment fragment, boolean clearStack) {
 		mCurrentPosition = position;
 		if (clearStack) {
 			getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		} else {
-			FragmentTransaction transaction = getFragmentManager().beginTransaction();
-			transaction.replace(R.id.container, fragment, TAG);
-			transaction.addToBackStack(null);
-			transaction.commit();
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					FragmentTransaction transaction = getFragmentManager().beginTransaction();
+					transaction.replace(R.id.container, fragment, TAG);
+					transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+					transaction.addToBackStack(null);
+					transaction.commit();
+				}
+			}, 300);
 		}
 	}
 }

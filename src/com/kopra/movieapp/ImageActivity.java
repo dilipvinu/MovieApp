@@ -4,11 +4,13 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.kopra.movieapp.net.VolleyManager;
 import com.kopra.movieapp.widget.CacheImageView;
 
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ImageActivity extends Activity {
 
 	private static final int ANIM_DURATION = 500;
@@ -47,6 +50,15 @@ public class ImageActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+//		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+//			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//		} else {
+//			View decorView = getWindow().getDecorView();
+//			int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+//			decorView.setSystemUiVisibility(uiOptions);
+//		}
+		
 		setContentView(R.layout.activity_image);
 		
 		mRootView = (FrameLayout) findViewById(R.id.rootView);

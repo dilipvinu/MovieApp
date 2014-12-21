@@ -3,10 +3,10 @@
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/apptheme_activated_background_holo_light"
+    android:background="@drawable/activated_background_holo_light"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingLeft="@dimen/horizontal_margin"
     android:paddingRight="?android:attr/listPreferredItemPaddingRight"
     android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:textColor="@drawable/apptheme_activated_text" />
+    android:textColor="@drawable/activated_text" />

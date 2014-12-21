@@ -124,20 +124,27 @@ public class CollectionFragment extends Fragment implements SwipeRefreshLayout.O
 		mRequestQueue = VolleyManager.getInstance(getActivity()).getRequestQueue();
 		mImageLoader = VolleyManager.getInstance(getActivity()).getImageLoader();
 		
-		if (savedInstanceState != null) {
-			mRefreshing = savedInstanceState.getBoolean("refreshing");
-			mShown = savedInstanceState.getBoolean("shown");
-			mBoxOfficeCollection = Utils.toJson(savedInstanceState.getString("box_office"));
-			mInTheatersCollection = Utils.toJson(savedInstanceState.getString("in_theaters"));
-			mOpeningCollection = Utils.toJson(savedInstanceState.getString("opening"));
-			mUpcomingCollection = Utils.toJson(savedInstanceState.getString("upcoming"));
+		if (mBoxOfficeCollection == null && mInTheatersCollection == null && mOpeningCollection == null && mUpcomingCollection == null) {
+			if (savedInstanceState != null) {
+				mRefreshing = savedInstanceState.getBoolean("refreshing");
+				mShown = savedInstanceState.getBoolean("shown");
+				mBoxOfficeCollection = Utils.toJson(savedInstanceState.getString("box_office"));
+				mInTheatersCollection = Utils.toJson(savedInstanceState.getString("in_theaters"));
+				mOpeningCollection = Utils.toJson(savedInstanceState.getString("opening"));
+				mUpcomingCollection = Utils.toJson(savedInstanceState.getString("upcoming"));
+				processResponse(Consts.List.BOX_OFFICE, mBoxOfficeCollection);
+				processResponse(Consts.List.IN_THEATERS, mInTheatersCollection);
+				processResponse(Consts.List.OPENING, mOpeningCollection);
+				processResponse(Consts.List.UPCOMING, mUpcomingCollection);
+			} else {
+				showList(false, false);
+				loadAllCollections();
+			}
+		} else {
 			processResponse(Consts.List.BOX_OFFICE, mBoxOfficeCollection);
 			processResponse(Consts.List.IN_THEATERS, mInTheatersCollection);
 			processResponse(Consts.List.OPENING, mOpeningCollection);
 			processResponse(Consts.List.UPCOMING, mUpcomingCollection);
-		} else {
-			showList(false, false);
-			loadAllCollections();
 		}
 	}
 	

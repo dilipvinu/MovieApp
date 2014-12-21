@@ -33,61 +33,13 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".HomeActivity"
-            android:label="@string/app_name" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
-            android:name=".BoxOfficeActivity"
-            android:label="@string/box_office" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
-            android:name=".InTheatersActivity"
-            android:label="@string/in_theaters" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
-            android:name=".OpeningMoviesActivity"
-            android:label="@string/opening" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
-            android:name=".UpcomingMoviesActivity"
-            android:label="@string/upcoming" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
-            android:name=".SearchResultActivity"
-            android:label="@string/app_name" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
-            android:name=".MovieDetailActivity"
-            android:label="@string/app_name" >
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".SearchActivity" />
-        </activity>
-        <activity
             android:name=".ImageActivity"
             android:label="@string/app_name"
             android:theme="@style/TransparentTheme" />
-        <activity
+        <!-- <activity
             android:name=".SearchActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/SearchTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -95,7 +47,7 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
-        </activity>
+        </activity> -->
 
         <provider
             android:name=".content.SearchSuggestionsProvider"

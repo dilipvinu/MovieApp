@@ -76,16 +76,18 @@ public class MovieListFragment extends BaseListFragment implements SwipeRefreshL
 	}
 	
 	public void search(int type, String query) {
-		String url = new UrlBuilder(getActivity())
-				.setBase(Consts.Api.BASE)
-				.setMethod(String.format(Utils.getApiMethod(type), Utils.encode(query)))
-				.setPage(mPage)
-				.setLimit(Consts.Config.LIMIT_SEARCH)
-				.build();
-		JsonObjectRequest request = new JsonObjectRequest(
-				url, null, onResponse, onError);
-		mRequestQueue.add(request);
-		mLoading = true;
+		try {
+			String url = new UrlBuilder(getActivity())
+					.setBase(Consts.Api.BASE)
+					.setMethod(String.format(Utils.getApiMethod(type), Utils.encode(query)))
+					.setPage(mPage)
+					.setLimit(Consts.Config.LIMIT_SEARCH)
+					.build();
+			JsonObjectRequest request = new JsonObjectRequest(
+					url, null, onResponse, onError);
+			mRequestQueue.add(request);
+			mLoading = true;
+		} catch (Exception e) {}
 	}
 	
 	@Override

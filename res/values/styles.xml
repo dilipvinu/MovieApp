@@ -4,7 +4,7 @@
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light">
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar" >
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
@@ -13,28 +13,33 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-
+    <style name="AppTheme" parent="AppBaseTheme" >
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/primary_light</item>
+        <item name="searchViewStyle">@style/SearchViewTheme</item>
         <item name="android:windowBackground">@color/background</item>
-        <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
-        <item name="android:textColorHighlight">#99ff4444</item>
-        <item name="android:textSelectHandleLeft">@drawable/apptheme_text_select_handle_left</item>
-        <item name="android:textSelectHandleRight">@drawable/apptheme_text_select_handle_right</item>
-        <item name="android:textSelectHandle">@drawable/apptheme_text_select_handle_middle</item>
-        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
-        <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
-        <item name="android:ratingBarStyleSmall">@style/RatingBarSmallAppTheme</item>
-        <item name="android:listChoiceBackgroundIndicator">@drawable/apptheme_list_selector_holo_light</item>
-        <item name="android:selectableItemBackground">@drawable/apptheme_item_background_holo_light</item>
-        <item name="android:activatedBackgroundIndicator">@drawable/apptheme_activated_background_holo_light</item>
+        <item name="android:editTextBackground">@drawable/edit_text_holo_light</item>
+
+	    <item name="android:textColorHighlight">#99f44336</item>
+	    <item name="android:textSelectHandleLeft">@drawable/apptheme_text_select_handle_left</item>
+	    <item name="android:textSelectHandleRight">@drawable/apptheme_text_select_handle_right</item>
+	    <item name="android:textSelectHandle">@drawable/apptheme_text_select_handle_middle</item>
+	
+	    <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
+	
+	    <item name="android:ratingBarStyleSmall">@style/RatingBarSmallAppTheme</item>
+	
+	    <item name="android:activatedBackgroundIndicator">@drawable/activated_background_holo_light</item>
     </style>
     
-    <style name="TransparentTheme">
-        <item name="android:windowNoTitle">true</item>
+    <style name="TransparentTheme" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+    
+    <style name="SearchTheme" parent="@style/Theme.AppCompat.Light" />
 
     <style name="Text" parent="android:Widget.TextView">
         <item name="android:drawablePadding">@dimen/drawable_padding</item>
@@ -101,18 +106,21 @@
     </style>
 
     <style name="AutoCompleteTextViewAppTheme" parent="android:Widget.Holo.Light.AutoCompleteTextView">
-        <item name="android:dropDownSelector">@drawable/apptheme_list_selector_holo_light</item>
-        <item name="android:background">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="android:dropDownSelector">@drawable/list_selector_holo_light</item>
+        <item name="android:background">@drawable/edit_text_holo_light</item>
     </style>
 
     <style name="ProgressBarAppTheme" parent="android:Widget.Holo.Light.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/apptheme_progress_horizontal_holo_light</item>
-        <item name="android:indeterminateDrawable">@drawable/apptheme_progress_indeterminate_horizontal_holo_light</item>
+        <item name="android:progressDrawable">@drawable/progress_horizontal_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_indeterminate_horizontal_holo_light</item>
     </style>
 
     <style name="RatingBarSmallAppTheme" parent="android:Widget.Holo.Light.RatingBar.Small">
-        <item name="android:progressDrawable">@drawable/apptheme_ratingbar_small_holo_light</item>
-        <item name="android:indeterminateDrawable">@drawable/apptheme_ratingbar_small_holo_light</item>
+        <item name="android:progressDrawable">@drawable/ratingbar_small_holo_light</item>
+        <item name="android:indeterminateDrawable">@drawable/ratingbar_small_holo_light</item>
+    </style>
+    
+    <style name="SearchViewTheme" parent="@style/Widget.AppCompat.SearchView">
     </style>
 
 </resources>
