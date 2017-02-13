@@ -8,6 +8,9 @@ android {
         minSdkVersion 14
         targetSdkVersion 24
     }
+    lintOptions {
+        abortOnError false
+    }
     signingConfigs {
         release {
             keyAlias 'kopra-release'
