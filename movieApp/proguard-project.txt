@@ -20,13 +20,13 @@
 #}
 
 # Settings for EventBus
+-keepattributes *Annotation*
 -keepclassmembers class ** {
-    public void onEvent*(**);
+    @org.greenrobot.eventbus.Subscribe <methods>;
 }
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
 # Settings for okHttp
 -dontwarn okio.**
--dontwarn com.squareup.okhttp.**
-
-# Settings for Android support library
--keep class android.support.v7.widget.** { *; }
+-dontwarn com.squareup.okhttp3.**
+-dontwarn okhttp3.internal.huc.HttpURLConnectionImpl
